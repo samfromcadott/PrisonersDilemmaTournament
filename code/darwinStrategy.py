@@ -44,10 +44,12 @@ class Strategy(object):
 
 	def strategy(self, history, memory):
 		choice = self.action ^ 1
-		mem = None
+		mem = memory
 
-		if (random() < 1/self.memoryChance) or (self.historyPercent(history, self.memoryAction, self.memoryLength) > 1/self.memoryPercent):
+		if (random() < 1/self.memoryChance) or (self.historyPercent(history, self.memoryAction, self.memoryLength) > 1/self.memoryPercent) or (memory is not None and memory == self.setMemory):
 			mem = self.setMemory
+		else:
+			mem = not self.setMemory
 
 		if (self.checkMemory and memory) or (random() < 1/self.actionChance) or (self.historyPercent(history, self.action, self.actionLength) > 1/self.actionPercent):
 			choice = self.action
