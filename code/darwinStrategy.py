@@ -4,6 +4,18 @@ class Strategy(object):
 	DEFECT = 0
 	COOPERATE = 1
 
+	# DNA bitfield structure
+	# 1 bit		Set memory true/false
+	# 1 bit		Check for purple defection/cooperation
+	# 1 bit		Check memory
+	# 1 bit		Action defect/cooperate
+	# 4 bits	Random memory setting
+	# 4 bits	Percent of last purple moves for action setting
+	# 4 bits	Number of last purple moves for memory setting
+	# 4 bits	Random action chance
+	# 4 bits	Percent of last purple moves for action setting
+	# 4 bits	Number of last purple moves for action setting
+
 	def __init__(self, dna):
 		self._dna = dna
 
