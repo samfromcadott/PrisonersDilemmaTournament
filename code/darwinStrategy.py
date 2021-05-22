@@ -1,4 +1,4 @@
-from random import random
+import random
 
 class Strategy(object):
 	DEFECT = 0
@@ -33,10 +33,13 @@ class Strategy(object):
 
 
 	def historyPercent(self, history, action, length):
-		N = length if length <= history.shape[1] else history.shape[1]
-		percent = N/sum( history[1, -N] )
+		if history.shape[1] == 0:
+			return 0.0
 
-		if action == DEFECT:
+		N = length if length <= history.shape[1] else history.shape[1]
+		percent = history[1, -N].sum() / N
+
+		if action == self.DEFECT:
 			return 1-percent
 		else:
 			return percent
@@ -46,12 +49,48 @@ class Strategy(object):
 		choice = self.action ^ 1
 		mem = memory
 
-		if (random() < 1/self.memoryChance) or (self.historyPercent(history, self.memoryAction, self.memoryLength) > 1/self.memoryPercent) or (memory is not None and memory == self.setMemory):
+		if (random.random() > self.memoryChance * 0.0625) or (self.historyPercent(history, self.memoryAction, self.memoryLength) > self.memoryPercent * 0.0625) or (memory is not None and memory == self.setMemory):
 			mem = self.setMemory
 		else:
 			mem = not self.setMemory
 
-		if (self.checkMemory and memory) or (random() < 1/self.actionChance) or (self.historyPercent(history, self.action, self.actionLength) > 1/self.actionPercent):
+		if (self.checkMemory and memory) or (random.random() > self.actionChance * 0.0625) or (self.historyPercent(history, self.action, self.actionLength) > self.actionPercent * 0.0625):
 			choice = self.action
 
 		return choice, mem
+
+
+	def sourceCode(self):
+		return (
+			"import random\n\n"
+
+			"DEFECT = 0\n"
+			"COOPERATE = 1\n\n"
+
+			"def historyPercent(history, action, length):\n"
+			"	if history.shape[1] == 0:\n"
+			"		return 0.0\n\n"
+
+			"	N = length if length <= history.shape[1] else history.shape[1]\n"
+			"	percent = history[1, -N].sum() / N\n\n"
+
+			"	if action == DEFECT:\n"
+			"		return 1-percent\n"
+			"	else:\n"
+			"		return percent\n\n"
+
+
+			"def strategy(history, memory):\n"
+			f"	choice = {self.action ^ 1}\n"
+			"	mem = memory\n\n"
+
+			f"	if (random.random() > {self.memoryChance * 0.0625}) or (historyPercent(history, {self.memoryAction}, {self.memoryLength}) > {self.memoryPercent * 0.0625}) or (memory is not None and memory == {self.setMemory}):\n"
+			f"		mem = {self.setMemory}\n"
+			"	else:\n"
+			f"		mem = {not self.setMemory}\n\n"
+
+			f"	if ({self.checkMemory} and memory) or (random.random() > {self.actionChance * 0.0625}) or (historyPercent(history, {self.action}, {self.actionLength}) > {self.actionPercent * 0.0625}):\n"
+			f"		choice = {self.action}\n\n"
+
+			"	return choice, mem\n"
+		)
