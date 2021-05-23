@@ -1,5 +1,5 @@
 # This was created using an evolutionary process.
-# It's fron the seventh generation. It does well
+# It's from the seventh generation. It does well
 # against other generated strategies but fairly
 # poor against human created ones.
 
