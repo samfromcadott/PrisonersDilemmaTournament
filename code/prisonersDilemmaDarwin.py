@@ -138,4 +138,4 @@ if __name__ == '__main__':
 			except:
 				pass
 
-	runFullPairingTournament(generationFile, RESULTS_FILE, latest)
+	runFullPairingTournament(generationFile, 'results%04i.txt' % latest, latest)
