@@ -1,3 +1,10 @@
+# This was created using an evolutionary process.
+# It's fron the seventh generation. It does well
+# against other generated strategies but fairly
+# poor against human created ones.
+
+# samfromcadott 2021
+
 import random
 
 DEFECT = 0
