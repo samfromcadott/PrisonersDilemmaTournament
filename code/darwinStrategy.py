@@ -1,4 +1,5 @@
 import random
+from sys import argv
 
 class Strategy(object):
 	DEFECT = 0
@@ -61,6 +62,8 @@ class Strategy(object):
 
 
 	def sourceCode(self):
+		actions = ['DEFECT', 'COOPERATE']
+
 		return (
 			"import random\n\n"
 
@@ -81,16 +84,21 @@ class Strategy(object):
 
 
 			"def strategy(history, memory):\n"
-			f"	choice = {self.action ^ 1}\n"
-			"	mem = memory\n\n"
+			f"	choice = {actions[self.action ^ 1]}\n"
+			"	wronged = memory\n\n"
 
-			f"	if (random.random() > {self.memoryChance * 0.0625}) or (historyPercent(history, {self.memoryAction}, {self.memoryLength}) > {self.memoryPercent * 0.0625}) or (memory is not None and memory == {self.setMemory}):\n"
+			f"	if (random.random() > {self.memoryChance * 0.0625}) or (historyPercent(history, {actions[self.memoryAction]}, {self.memoryLength}) > {self.memoryPercent * 0.0625}) or (memory is not None and memory == {self.setMemory}):\n"
 			f"		mem = {self.setMemory}\n"
 			"	else:\n"
-			f"		mem = {not self.setMemory}\n\n"
+			f"		wronged = {not self.setMemory}\n\n"
 
-			f"	if ({self.checkMemory} and memory) or (random.random() > {self.actionChance * 0.0625}) or (historyPercent(history, {self.action}, {self.actionLength}) > {self.actionPercent * 0.0625}):\n"
-			f"		choice = {self.action}\n\n"
+			f"	if ({self.checkMemory} and memory) or (random.random() > {self.actionChance * 0.0625}) or (historyPercent(history, {actions[self.action]}, {self.actionLength}) > {self.actionPercent * 0.0625}):\n"
+			f"		choice = {actions[self.action]}\n\n"
 
-			"	return choice, mem\n"
+			"	return choice, wronged\n"
 		)
+
+if __name__ == '__main__':
+	if len(argv) > 1:
+		strat = Strategy( int(argv[1], 16) )
+		print(strat.sourceCode())

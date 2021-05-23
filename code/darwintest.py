@@ -1,7 +1,7 @@
 from darwinStrategy import *
 from generation import *
 
-a = Strategy(0xa032cb8)
+a = Strategy(0xe5d4bae)
 
 # print("Set memory: ", a.setMemory)
 # print("Memory action: ", a.memoryAction)
@@ -14,7 +14,7 @@ a = Strategy(0xa032cb8)
 # print("Action percent: ", a.actionPercent)
 # print("Action length: ", a.actionLength)
 #
-# print(a.sourceCode())
+print(a.sourceCode())
 
 # b = 0x1FFFFFF
 # c = 0x2AAAAAA

@@ -90,9 +90,10 @@ def runFullPairingTournament(generationFile, outFile, genNum):
 	for strat in g.readlines():
 		STRATEGY_LIST.append( int(strat, 16) )
 
+	STRATEGY_LIST = list( set(STRATEGY_LIST) )
+
 	g.flush()
 	g.close()
-
 
 	for strategy in STRATEGY_LIST:
 		scoreKeeper[strategy] = 0
@@ -117,9 +118,19 @@ def runFullPairingTournament(generationFile, outFile, genNum):
 		scorePer = score/(len(STRATEGY_LIST)-1)
 		f.write("#"+str(rank+1)+": "+pad(hex(STRATEGY_LIST[i])+":",16)+' %.3f'%score+'  (%.3f'%scorePer+" average)\n")
 
+	# Create new generation
+	print("Creating new generation")
+	rankedStrats = []
+	for rank in range(10):
+		i = rankings[rank]
+		rankedStrats.append(STRATEGY_LIST[i])
+
+	newGen = generation.newGeneration(rankedStrats)
+	generation.writeGeneration(newGen, genNum+1)
+
 	f.flush()
 	f.close()
-	print("Done with everything! Results file written to "+RESULTS_FILE)
+	print("Done with everything! Results file written to "+outFile)
 
 if __name__ == '__main__':
 	generationFile = ''

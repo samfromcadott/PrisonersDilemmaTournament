@@ -15,9 +15,11 @@ def firstGeneration(n):
 def newGeneration(fittest):
 	gen = []
 
-	for pair in itertools.combinations(fittest, r=2):
+	for pair in itertools.permutations(fittest, r=2):
 		offspring = reproduce(pair[0], pair[1])
-		offspring = mutate(offspring)
+
+		if randint(0, 4) == 0: # 1 in 5 chance of mutation
+			offspring = mutate(offspring)
 
 		gen.append(offspring)
 
@@ -38,11 +40,10 @@ def reproduce(a, b):
 
 
 def mutate(strat):
-	if randint(0, 4) == 0: # 1 in 5 chance of mutation
-		N = randint(1, 10) # Number of bits to flip
+	N = randint(1, 10) # Number of bits to flip
 
-		for i in range(N):
-			strat = strat ^ (1<<randint(0, 27))
+	for i in range(N):
+		strat = strat ^ (1<<randint(0, 27))
 
 	return strat
 
@@ -58,6 +59,6 @@ def writeGeneration(gen, number):
 
 
 if __name__ == '__main__':
-	if not path.exists("guru0001.txt"):
+	if not path.exists("gen0001.txt"):
 		gen = firstGeneration(100)
 		writeGeneration(gen, 1)
