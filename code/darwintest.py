@@ -16,10 +16,15 @@ a = Strategy(0xa032cb8)
 #
 # print(a.sourceCode())
 
-b = 0x1FFFFFF
-c = 0x2AAAAAA
+# b = 0x1FFFFFF
+# c = 0x2AAAAAA
+#
+# print( hex(reproduce(b, c)) )
+#
+# for i in range(10):
+# 	print( hex(mutate(b)) )
 
-print( hex(reproduce(b, c)) )
+gen = newGeneration([0x1FFFFFF,0x2AAAAAA,0x3CCCCCC,0x0BBBBBB])
 
-for i in range(10):
-	print( hex(mutate(b)) )
+for i in gen:
+	print( hex(i) )

@@ -1,4 +1,5 @@
 from random import randint
+import itertools
 
 def firstGeneration(n):
 	# The first generation should be totally random
@@ -6,6 +7,18 @@ def firstGeneration(n):
 
 	for i in range(n):
 		gen.append( randint(0, 0xFFFFFFF) )
+
+	return gen
+
+
+def newGeneration(fittest):
+	gen = []
+
+	for pair in itertools.combinations(fittest, r=2):
+		offspring = reproduce(pair[0], pair[1])
+		offspring = mutate(offspring)
+
+		gen.append(offspring)
 
 	return gen
 
