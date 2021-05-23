@@ -1,5 +1,6 @@
 from random import randint
 import itertools
+from os import path
 
 def firstGeneration(n):
 	# The first generation should be totally random
@@ -54,3 +55,9 @@ def writeGeneration(gen, number):
 
 	f.flush()
 	f.close()
+
+
+if __name__ == '__main__':
+	if not path.exists("guru0001.txt"):
+		gen = firstGeneration(100)
+		writeGeneration(gen, 1)

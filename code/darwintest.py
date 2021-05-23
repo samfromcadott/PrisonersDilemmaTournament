@@ -1,5 +1,5 @@
 from darwinStrategy import *
-from createGeneration import *
+from generation import *
 
 a = Strategy(0xa032cb8)
 

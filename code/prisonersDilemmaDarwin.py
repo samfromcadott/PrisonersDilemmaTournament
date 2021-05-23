@@ -4,6 +4,7 @@ import importlib
 import numpy as np
 import random
 from darwinStrategy import *
+import generation
 
 STRATEGY_FOLDER = "exampleStrats"
 RESULTS_FILE = "results.txt"
@@ -81,12 +82,12 @@ def pad(stri, leng):
 		result = result+" "
 	return result
 
-def runFullPairingTournament(generationFile, outFile):
-	print("Starting tournament, reading DNA from "+generationFile)
+def runFullPairingTournament(generationFile, outFile, genNum):
+	print(f"Starting tournament, reading DNA from Generation {genNum}")
 	scoreKeeper = {}
 	g = open(generationFile)
 	STRATEGY_LIST = []
-	for strat in g.readlines(): # TODO: Replace with strategy DNA from generation file
+	for strat in g.readlines():
 		STRATEGY_LIST.append( int(strat, 16) )
 
 	g.flush()
@@ -120,5 +121,21 @@ def runFullPairingTournament(generationFile, outFile):
 	f.close()
 	print("Done with everything! Results file written to "+RESULTS_FILE)
 
+if __name__ == '__main__':
+	generationFile = ''
+	latest = 0
 
-runFullPairingTournament('gen1.txt', RESULTS_FILE)
+	for file in os.listdir("./"):
+
+		if file[0:3] == "gen":
+
+			try:
+				n = int(file[3:-4])
+				if n > latest:
+					latest = n
+					generationFile = file
+
+			except:
+				pass
+
+	runFullPairingTournament(generationFile, RESULTS_FILE, latest)
